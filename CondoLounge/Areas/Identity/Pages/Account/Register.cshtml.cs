@@ -19,6 +19,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using CondoLounge.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace CondoLounge.Areas.Identity.Pages.Account
 {
@@ -30,13 +32,15 @@ namespace CondoLounge.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        ApplicationDbContext _context;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            ApplicationDbContext context)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -44,6 +48,7 @@ namespace CondoLounge.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _context = context;
         }
 
         /// <summary>
@@ -98,6 +103,12 @@ namespace CondoLounge.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Display(Name = "Building")]
+            public int? BuildingId { get; set; }
+
+            [Display(Name = "Condo")]
+            public int? CondoId { get; set; }
         }
 
 
@@ -122,6 +133,24 @@ namespace CondoLounge.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+
+                    await _userManager.AddToRoleAsync(user, "Default");
+
+                    if (Input.CondoId.HasValue)
+                    {
+                        var condo = await _context.Condos
+                                        .Include(c => c.Users)
+                                        .FirstOrDefaultAsync(c => c.Id == Input.CondoId.Value);
+                        if (condo != null)
+                        {
+                            if (condo.Users == null)
+                            {
+                                condo.Users = new List<ApplicationUser>();
+                            }
+                            condo.Users.Add(user);
+                            await _context.SaveChangesAsync();
+                        }
+                    }
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
