@@ -58,7 +58,8 @@ namespace CondoLounge.Data
                 var condo = new Condo
                 {
                     CondoNumber = 101,
-                    BuildingId = building.Id
+                    BuildingId = building.Id,
+                    Location = "CondoLocation"
                 };
                 _db.Condos.Add(condo);
                 _db.SaveChanges();

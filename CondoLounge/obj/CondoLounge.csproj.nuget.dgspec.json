@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\6231274\\source\\repos\\test-1-condolounge-GabrielJutras\\CondoLounge\\CondoLounge.csproj": {}
+    "C:\\Users\\6231274\\Source\\Repos\\test-1-condolounge-GabrielJutras\\CondoLounge\\CondoLounge.csproj": {}
   },
   "projects": {
-    "C:\\Users\\6231274\\source\\repos\\test-1-condolounge-GabrielJutras\\CondoLounge\\CondoLounge.csproj": {
+    "C:\\Users\\6231274\\Source\\Repos\\test-1-condolounge-GabrielJutras\\CondoLounge\\CondoLounge.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\6231274\\source\\repos\\test-1-condolounge-GabrielJutras\\CondoLounge\\CondoLounge.csproj",
+        "projectUniqueName": "C:\\Users\\6231274\\Source\\Repos\\test-1-condolounge-GabrielJutras\\CondoLounge\\CondoLounge.csproj",
         "projectName": "CondoLounge",
-        "projectPath": "C:\\Users\\6231274\\source\\repos\\test-1-condolounge-GabrielJutras\\CondoLounge\\CondoLounge.csproj",
+        "projectPath": "C:\\Users\\6231274\\Source\\Repos\\test-1-condolounge-GabrielJutras\\CondoLounge\\CondoLounge.csproj",
         "packagesPath": "C:\\Users\\6231274\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\6231274\\Source\\Repos\\test-1-condolounge-GabrielJutras\\CondoLounge\\obj\\",
+        "outputPath": "C:\\Users\\6231274\\source\\repos\\test-1-condolounge-GabrielJutras\\CondoLounge\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

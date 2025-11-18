@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "56DOevJGg68=",
+  "dgSpecHash": "Z8s8b+Vc2G0=",
   "success": true,
-  "projectFilePath": "C:\\Users\\6231274\\source\\repos\\test-1-condolounge-GabrielJutras\\CondoLounge\\CondoLounge.csproj",
+  "projectFilePath": "C:\\Users\\6231274\\Source\\Repos\\test-1-condolounge-GabrielJutras\\CondoLounge\\CondoLounge.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\6231274\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\6231274\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",

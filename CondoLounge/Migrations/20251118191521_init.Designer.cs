@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CondoLounge.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251118170544_init")]
+    [Migration("20251118191521_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -126,7 +126,7 @@ namespace CondoLounge.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Building");
+                    b.ToTable("Buildings");
                 });
 
             modelBuilder.Entity("CondoLounge.Data.Entities.Condo", b =>
@@ -140,9 +140,12 @@ namespace CondoLounge.Migrations
                     b.Property<int>("BuildingId")
                         .HasColumnType("int");
 
-                    b.Property<string>("CondoNumber")
+                    b.Property<int>("CondoNumber")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Location")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -151,7 +154,7 @@ namespace CondoLounge.Migrations
                     b.HasIndex("CondoNumber", "BuildingId")
                         .IsUnique();
 
-                    b.ToTable("Condo");
+                    b.ToTable("Condos");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
@@ -235,10 +238,12 @@ namespace CondoLounge.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -274,10 +279,12 @@ namespace CondoLounge.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");

@@ -104,11 +104,13 @@ namespace CondoLounge.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
+            [Required]
             [Display(Name = "Building")]
-            public int? BuildingId { get; set; }
+            public int BuildingId { get; set; }
 
+            [Required]
             [Display(Name = "Condo")]
-            public int? CondoId { get; set; }
+            public int CondoNumber { get; set; }
         }
 
 
@@ -136,21 +138,44 @@ namespace CondoLounge.Areas.Identity.Pages.Account
 
                     await _userManager.AddToRoleAsync(user, "Default");
 
-                    if (Input.CondoId.HasValue)
+                    var building = await _context.Buildings.FindAsync(Input.BuildingId);
+                    if (building == null)
                     {
-                        var condo = await _context.Condos
-                                        .Include(c => c.Users)
-                                        .FirstOrDefaultAsync(c => c.Id == Input.CondoId.Value);
-                        if (condo != null)
+                        building = new Building
                         {
-                            if (condo.Users == null)
-                            {
-                                condo.Users = new List<ApplicationUser>();
-                            }
-                            condo.Users.Add(user);
-                            await _context.SaveChangesAsync();
-                        }
+                            BuildingName = $"Building {Input.BuildingId}",
+                            Address = "100 Building Road"
+                        };
+                        _context.Buildings.Add(building);
+                        await _context.SaveChangesAsync();
+
+                        Input.BuildingId = building.Id;
                     }
+
+                    var condo = await _context.Condos
+                                    .Include(c => c.Users)
+                                    .FirstOrDefaultAsync(c => c.CondoNumber == Input.CondoNumber && c.BuildingId == Input.BuildingId);
+
+                    if (condo == null)
+                    {
+                        condo = new Condo
+                        {
+                            CondoNumber = Input.CondoNumber,
+                            Location = "505 Condo Road",
+                            BuildingId = Input.BuildingId
+                        };
+                        _context.Condos.Add(condo);
+                        await _context.SaveChangesAsync();
+                    }
+
+                    if (condo.Users == null)
+                    {
+                        condo.Users = new List<ApplicationUser>();
+                    }
+
+                    var dbUser = await _userManager.FindByEmailAsync(Input.Email);
+                    condo.Users.Add(dbUser);
+                    await _context.SaveChangesAsync();
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
