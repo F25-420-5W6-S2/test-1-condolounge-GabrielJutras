@@ -1,5 +1,6 @@
 using CondoLounge.Data;
 using CondoLounge.Data.Entities;
+using CondoLounge.Data.Repositories.Helpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,14 +10,39 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => {
+    options.SignIn.RequireConfirmedAccount = false;
+    options.Password.RequireDigit = true;
+    options.Password.RequiredLength = 6;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = true;
+    options.Password.RequireLowercase = true;
+})
+    .AddRoles<IdentityRole<int>>()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddTransient<CondoLoungeSeeder>();
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IRepositoryProvider, RepositoryProvider>();
+
 var app = builder.Build();
+
+await RunSeeding(app);
+
+async Task RunSeeding(WebApplication app)
+{
+    var scopeFactory = app.Services.GetService<IServiceScopeFactory>();
+
+    using (var scope = scopeFactory.CreateScope())
+    {
+        var seeder = scope.ServiceProvider.GetService<CondoLoungeSeeder>();
+        await seeder.Seed();
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

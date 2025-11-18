@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CondoLounge")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d6682fb01c5a52eeaffa4920f3ab134e867a8aeb")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ed0584e8d3ca9e7a127cf67aae6ee0643035f6c9")]
 [assembly: System.Reflection.AssemblyProductAttribute("CondoLounge")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CondoLounge")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

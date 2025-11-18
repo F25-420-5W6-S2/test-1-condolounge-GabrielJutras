@@ -33,19 +33,40 @@ namespace CondoLounge.Data
                 await _roleManager.CreateAsync(new IdentityRole<int>("Condo"));
             }
 
+            ApplicationUser? user;
             if (!_userManager.Users.Any())
             {
-                var user = new ApplicationUser() { UserName = "admin@email.com", Email = "admin@email.com" };
+                user = new ApplicationUser() { UserName = "admin@email.com", Email = "admin@email.com" };
                 await _userManager.CreateAsync(user, "VerySecureAdmin45%");
                 await _userManager.AddToRoleAsync(user, "Admin");
             }
+            else
+            {
+                 user = await _userManager.FindByEmailAsync("admin@email.com");
+            }
 
-            //var building = new Building
-            //{
-            //    BuildingName = "Penfield",
-            //    Address = "123 Maple Street",
-            //};
+            if (!_db.Buildings.Any() && user != null)
+            {
+                var building = new Building
+                {
+                    BuildingName = "Penfield",
+                    Address = "123 Maple Street",
+                };
+                _db.Buildings.Add(building);
+                _db.SaveChanges();
 
+                var condo = new Condo
+                {
+                    CondoNumber = 101,
+                    BuildingId = building.Id
+                };
+                _db.Condos.Add(condo);
+                _db.SaveChanges();
+
+                //Add user to the condo
+                condo.Users = new List<ApplicationUser>() { user };
+                _db.SaveChanges();
+            }
             
         }
     }

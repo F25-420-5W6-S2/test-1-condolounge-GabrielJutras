@@ -13,7 +13,7 @@ To do:
 2. Add the Identity middleware (2%) --
 2. Create the entities for User, Building, Condo (2%) --
 3. Create the specific repos for the entities (2%) --
-4. Seed some data with an Admin user that is part of an initial <br/>
+4. Seed some data with an Admin user that is part of an initial <br/> --?
    Building, Condo and the Default and Admin roles available. (3%)
 5. Change the Registration page to add an Building, Condo and Default role to user (3%)
 6. Create a repo method to get all the Users for a Building (3%)
